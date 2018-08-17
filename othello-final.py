@@ -17,6 +17,8 @@ oneloc = np.argwhere(board==1)
 twoloc = np.argwhere(board==2)
 # 1 is white
 # 2 is black
+def tsa(digger):
+    return np.reshape(digger, (-1, 10))
 def around(board, pt):
     if pt==1:
         s=2
@@ -309,25 +311,64 @@ def simulate(boardy, pt, pos):
                 break
         if boardify[i + dlu] == 3 or boardify[i + dlu] == 0:
             break
-
+        else:
+            break
     summer=0
     return boardify
 def oponent(boord):
-    ch=int(input("where do you want to play"))
-    print("Here is the new board:")
-    print(np.reshape(simulate(boord, 2, ch), (-1, 10)))
-    yourturn(simulate(boord, 2, ch))
-def failure():
-    print("Here is the starting board:")
-    print(np.reshape(board, (-1, 10)))
-    oponent(board)
+    beed = list(boord)
+    print(beed)
+    return simulate(beed, 2, int(input("where do you want to play")))
+def compute(poena3):
+    poena2 = list(poena3)
+    i = 0
+    myflips, myindices = [], []
+    myflips, myindices = around(poena2, 1)
+    while myflips[i] != 0:
+        sb = simulate(poena2, 1, myindices[i])
+        oflips, oindices = around(sb, 2)
+        try:
+            cdiff = myflips[i] - oflips[0]
+            if maxdiff < cdiff:
+                maxdiff = myflips[i] - oflips[0]
+                maxflips = myflips[i]
+                maxindices = myindices[i]
+                assuming = oindices[0]
+        except:
+            maxdif = myflips[i] - oflips[0]
+            maxflips = myflips[i]
+            maxindices = myindices[i]
+            assuming = oindices[0]
+        i = i + 1
+    bobby = maxindices
+    print("I played at position " + str(bobby) + " which got me " + str(maxflips) + " flips")
+    theo = simulate(poena2, 1, int(bobby))
+    return theo
 def yourturn(poena):
     poena1 = list(poena)
-    f, t = [], []
-    f, t = around(poena1, 1)
-    print("I played at position " + str(t[0]) + " which got me " + str(f[0]) + " flips")
-    print(np.reshape(simulate(poena1, 1, t[0]), (-1,10)))
-    oponent(simulate(poena1, 1, t[0]))
+    try:
+        return compute(poena1)
+    except Exception as e:
+        print(e)
+        print("compute failed: invalid input, defaulting to simple program")
+        f, t = [], []
+        f, t = around(poena1, 1)
+        print("I played at position " + str(t[0]) + " which got me " + str(f[0]) + " flips")
+        return simulate(poena1, 1, t[0])
+def start():
+    print("Here is the starting board:")
+    print(np.reshape(board, (-1, 10)))
+    duckling = list(board)
+    while True:
+        print("Ignore this:")
+        print(np.reshape(duckling, (-1,10)))
+        duckling = oponent(list(duckling))
+        print("Here is the new board")
+        print(np.reshape(list(duckling), (-1,10)))
+        duckling = yourturn(list(duckling))
+        if not duckling:
+            print("crap")
+        else:
+            print(np.reshape(duckling, (-1,10)))
 
-failure()
-#test tree
+start()
