@@ -330,3 +330,4 @@ def yourturn(poena):
     oponent(simulate(poena1, 1, t[0]))
 
 failure()
+#test tree
