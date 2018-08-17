@@ -322,26 +322,46 @@ def oponent(boord):
 def compute(poena3):
     poena2 = list(poena3)
     i = 0
+    a = 0
+    b = 0
+    c = 0
+    d = 0
+    e = 0
+    f = 0
+    g = 0
+    h = 0
     myflips, myindices = [], []
     myflips, myindices = around(poena2, 1)
     while myflips[i] != 0:
         sb = simulate(poena2, 1, myindices[i])
         oflips, oindices = around(sb, 2)
-        try:
-            cdiff = myflips[i] - oflips[0]
-            if maxdiff < cdiff:
-                maxdiff = myflips[i] - oflips[0]
-                maxflips = myflips[i]
-                maxindices = myindices[i]
-                assuming = oindices[0]
-        except:
-            maxdif = myflips[i] - oflips[0]
-            maxflips = myflips[i]
-            maxindices = myindices[i]
-            assuming = oindices[0]
+        while oflips[a] != 0:
+            sc = simulate(sb, 2, oflips[a])
+            myflips1, myindices1 = around(sc, 1)
+            while myflips1[b] != 0:
+                sd = simulate(sc, 1, myflips[b])
+                oflips1, oindices1 = around(sd, 2)
+                while oflips1[c] != 0:
+                    se = simulate(sb, 2, oflips1[c])
+                    myflips2, myindices2 = around(sd, 1)
+                    try:
+                        cdiff = myflips[i] + myflips1[b] - (oflips[a] + oflips1[c])
+                        if maxdiff < cdiff:
+                            maxdiff = myflips[i] + myflips1[b] - (oflips[a] + oflips1[c])
+                            maxflips = myflips[i]
+                            maxindices = myindices[i]
+                            assuming = oindices[0]
+                    except:
+                        maxdif = myflips[i] + myflips1[b] - (oflips[a] + oflips1[c])
+                        maxflips = myflips[i]
+                        maxindices = myindices[i]
+                        assuming = oindices[0]
+                    c = c +1
+                b = b + 1
+            a = a + 1
         i = i + 1
     bobby = maxindices
-    print("I played at position " + str(bobby) + " which got me " + str(maxflips) + " flips")
+    print("I played at position " + str(bobby) + " which got me " + str(maxflips) + " flips assuming the opponent plays at " + str(assuming))
     theo = simulate(poena2, 1, int(bobby))
     return theo
 def yourturn(poena):
